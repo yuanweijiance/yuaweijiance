@@ -1,0 +1,83 @@
+# This is a basic workflow to help you get started with Actions
+
+Array1=input('please input an array listed as six\n');
+m=size(Array1,1);
+Array2=zeros(m,5);
+ArrayC=zeros(1,4);
+for h=1:1:m
+    x=Array1(h,1);
+    y=Array1(h,2);
+    z=Array1(h,3);
+    i=Array1(h,4);
+    j=Array1(h,5);
+    k=Array1(h,6);
+    if i==0&&j<0
+        ArrayC(1)=0;
+        ArrayC(2)=-180;
+        ArrayC(3)=-360;
+        ArrayC(4)=180;
+    elseif i>0&&j<0
+        ArrayC(1)=atand(i/-j);
+        ArrayC(2)=atand(i/-j)-180;
+        ArrayC(3)=atand(i/-j)-360;
+        ArrayC(4)=atand(i/-j)+180;
+    elseif i>0&&j==0
+        ArrayC(1)=90;
+        ArrayC(2)=-90;
+        ArrayC(3)=-270;
+        ArrayC(4)=270;
+    elseif i>0&&j>0
+        ArrayC(1)=atand(i/-j)+180;
+        ArrayC(2)=atand(i/-j);
+        ArrayC(3)=atand(i/-j)-180;
+        ArrayC(4)=atand(i/-j)+360;
+    elseif i==0&&j>0
+        ArrayC(1)=180;
+        ArrayC(2)=0;
+        ArrayC(3)=-180;
+        ArrayC(4)=360;
+    elseif i<0&&j>0
+        ArrayC(1)=atand(i/-j)-180;
+        ArrayC(2)=atand(i/-j);
+        ArrayC(3)=atand(i/-j)+180;
+        ArrayC(4)=atand(i/-j)-360;
+    elseif i<0&&j==0
+        ArrayC(1)=-90;
+        ArrayC(2)=90;
+        ArrayC(3)=270;
+        ArrayC(4)=-270;
+    elseif i<0&&j<0
+        ArrayC(1)=atand(i/-j);
+        ArrayC(2)=atand(i/-j)+180;
+        ArrayC(3)=atand(i/-j)+360;
+        ArrayC(4)=atand(i/-j)-180;
+    end
+    C=65536;
+    if h==1
+        for n=1:1:4
+            if abs(ArrayC(n))<abs(C)
+                C=ArrayC(n);
+            end
+        end
+        A=asind(i/sind(C));
+        Array2(1,1)=x+200*sind(A)*sind(C);
+        Array2(1,2)=y-200*sind(A)*cosd(C);
+        Array2(1,3)=z+200*cosd(A)-200;
+        Array2(1,4)=A;
+        Array2(1,5)=C;
+    elseif h>0
+        for n=1:1:4
+            if abs(ArrayC(n)-Array2(h-1,5))<abs(C)
+                C=ArrayC(n);
+            end
+        end
+        A=asind(i/sind(C));
+        Array2(h,1)=x+200*sind(A)*sind(C);
+        Array2(h,2)=y-200*sind(A)*cosd(C);
+        Array2(h,3)=z+200*cosd(A)-200;
+        Array2(h,4)=A;
+        Array2(h,5)=C;    
+    end
+
+end
+disp(Array2)
